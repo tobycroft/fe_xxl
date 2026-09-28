@@ -674,10 +674,17 @@ $(function () {
     $('#welcomeBox').removeClass('hidden');
   }
 
-  $('#welcomeStart').on('click', function () {
+  var startEntering = false; // 防止 touchend + click 双触发
+  function enterGame() {
+    if (startEntering) return;
+    startEntering = true;
     $('#welcomeBox').addClass('hidden');
     $('.game-box').removeClass('hidden');
     game = new LinkGame(gameConfig);
     game.init();
-  });
+  }
+  $('#welcomeStart').on('touchend', function (e) {
+    e.preventDefault(); // 阻止后续合成 click，避免重复进入
+    enterGame();
+  }).on('click', enterGame);
 });
