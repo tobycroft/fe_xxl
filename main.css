@@ -29,8 +29,55 @@ body {
   width: 864px;
   height: 1536px;
 
-  background: url('images/game-bg.png') center no-repeat;
-  background-size: cover;
+  /* CSS 自动生成的动态渐变背景（毛玻璃风格），替代原位图背景 */
+  background: linear-gradient(135deg, #a8d8ff 0%, #d4c4fb 30%, #ffd3e8 60%, #ffe9c9 100%);
+  overflow: hidden;
+}
+
+/* 流动模糊光斑，营造苹果毛玻璃质感 */
+.wrapper::before,
+.wrapper::after {
+  content: '';
+
+  position: absolute;
+  width: 900px;
+  height: 900px;
+  border-radius: 50%;
+
+  filter: blur(120px);
+  animation: blob-float 18s ease-in-out infinite alternate;
+}
+
+.wrapper::before {
+  top: -200px;
+  left: -250px;
+
+  background: rgba(120, 190, 255, .8);
+}
+
+.wrapper::after {
+  right: -250px;
+  bottom: -200px;
+
+  background: rgba(255, 170, 220, .75);
+  animation-delay: -9s;
+}
+
+@keyframes blob-float {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(160px, 120px) scale(1.15);
+  }
+  100% {
+    transform: translate(-120px, 200px) scale(.95);
+  }
+}
+
+.wrapper > div {
+  position: relative;
+  z-index: 1;
 }
 
 .wrapper .init-box {
