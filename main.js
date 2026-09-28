@@ -593,9 +593,10 @@ LinkGame.prototype = {
 
 
 $(function () {
-  // 移动端适配：按 1080x1920 竖屏设计（864x1536，占屏幕 80%，四周留白），等比缩放并居中
+  // 移动端适配：按 1080x1920 竖屏设计（864x1536），等比缩放并居中，四周保留少量留白
   function fitScreen() {
-    var scale = Math.min(window.innerWidth / 864, window.innerHeight / 1536, 1.5) * 0.8;
+    var pad = 10;
+    var scale = Math.min((window.innerWidth - pad * 2) / 864, (window.innerHeight - pad * 2) / 1536);
     $('.wrapper').css({
       transform: 'scale(' + scale + ')',
       left: (window.innerWidth - 864 * scale) / 2 + 'px',
@@ -610,11 +611,22 @@ $(function () {
     e.preventDefault();
   }, { passive: false });
 
-  // 打开页面直接进入游戏
+  // 背景音乐：loop 循环播放，开关状态保存在 cookie
   var audio = $('audio').get(0);
-  audio.loop = true; // 背景音乐循环播放
-  // 自动播放被浏览器拦截时，首次触摸再尝试播放背景音乐
+  audio.loop = true;
+
+  function getCookie(name) {
+    var m = document.cookie.match(new RegExp('(^| )' + name + '=([^;]*)'));
+    return m ? decodeURIComponent(m[2]) : '';
+  }
+  function setCookie(name, value) {
+    document.cookie = name + '=' + value + '; path=/; max-age=31536000';
+  }
+
+  var musicOn = getCookie('bgMusic') !== 'off'; // 默认开启
+
   function tryPlayAudio() {
+    if (!musicOn) return;
     var p = audio.play();
     if (p && p.then) {
       p.then(function () {
@@ -624,6 +636,23 @@ $(function () {
       $(document).off('touchstart', tryPlayAudio);
     }
   }
+
+  var $musicBtn = $('#musicToggle');
+  function renderMusicBtn() {
+    $musicBtn.text(musicOn ? '音乐:开' : '音乐:关').toggleClass('off', !musicOn);
+  }
+  $musicBtn.on('click', function () {
+    musicOn = !musicOn;
+    setCookie('bgMusic', musicOn ? 'on' : 'off');
+    if (musicOn) {
+      tryPlayAudio();
+    } else {
+      audio.pause();
+    }
+    renderMusicBtn();
+  });
+  renderMusicBtn();
+
   tryPlayAudio();
   $(document).on('touchstart', tryPlayAudio);
 

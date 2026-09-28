@@ -236,6 +236,30 @@ body {
   cursor: pointer;
 }
 
+.wrapper .music-toggle {
+  font-size: 26px;
+  line-height: 1;
+
+  position: absolute;
+  top: 24px;
+  right: 18px;
+  z-index: 10;
+
+  padding: 12px 20px;
+
+  cursor: pointer;
+
+  color: #fff;
+  border-radius: 32px;
+  background: rgba(0, 0, 0, .35);
+}
+
+.wrapper .music-toggle.off {
+  color: #ccc;
+
+  background: rgba(0, 0, 0, .55);
+}
+
 .empty {
   opacity: 0;
 }
