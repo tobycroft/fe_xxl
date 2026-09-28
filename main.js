@@ -89,7 +89,7 @@ LinkGame.prototype = {
     this.pictures = []; // 图片集合
     this.linkPictures = [];
     this.preClickInfo = null; // 上一次被点中的图片信息
-    this.leftTime = 100; // 剩余时间
+    this.leftTime = 100; // 剩余时间（秒）
     this.updateDomNumbers($('.time'), this.leftTime, 1); // 立即显示初始时间
     this.points = []; // 图片可以相消时的拐点集合
     this.timmer = setInterval(function () {
@@ -400,7 +400,8 @@ LinkGame.prototype = {
   levelPass: function () {
     clearInterval(this.timmer);
     this.isPaused = true;
-    $('#passNextLevel').text(this.level + 2); // level 已是下一关索引（0 起），显示 +2
+    ++this.level; // 进入下一关
+    $('#passNextLevel').text(this.level + 1);
     $('#levelPass').removeClass('hidden');
   },
   isRowEmpty: function (x1, y1, x2, y2) {
@@ -591,20 +592,6 @@ LinkGame.prototype = {
       self.checkMatch(data);
     }).on('click', '.disorder', function (event) {
       self.leftDisorderTime-- > 0 && self.disorder();
-    }).on('click', '.replay-btn', function () {
-      backToWelcome();
-    }).on('click', '#goReplay', function () {
-      $('#gameOver').addClass('hidden');
-      replayGame();
-    }).on('click', '#goHome', function () {
-      $('#gameOver').addClass('hidden');
-      backToWelcome();
-    }).on('click', '#passContinue', function () {
-      $('#levelPass').addClass('hidden');
-      continueNextLevel();
-    }).on('click', '#passExit', function () {
-      $('#levelPass').addClass('hidden');
-      backToWelcome();
     });
 
     // window.onbeforeunload = function (event) {
@@ -717,6 +704,21 @@ $(function () {
     game.isPaused = false;
     game.reset();
   }
+
+  // 结算/过关弹窗按钮（必须绑在这里，才能访问 backToWelcome 等流程函数）
+  $('.wrapper').on('click', '#goReplay', function () {
+    $('#gameOver').addClass('hidden');
+    replayGame();
+  }).on('click', '#goHome', function () {
+    $('#gameOver').addClass('hidden');
+    backToWelcome();
+  }).on('click', '#passContinue', function () {
+    $('#levelPass').addClass('hidden');
+    continueNextLevel();
+  }).on('click', '#passExit', function () {
+    $('#levelPass').addClass('hidden');
+    backToWelcome();
+  });
 
   function enterGame() {
     if (startEntering) return;
