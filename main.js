@@ -179,6 +179,7 @@ LinkGame.prototype = {
     this.updateDomNumbers($('.time'), this.leftTime, 1);
   },
   gameOver: function () {
+    clearInterval(this.timmer);
     $('.game-over').removeClass('hidden').find('.history-score').text(this.getHistoryScore() || 0);
     this.updateDomNumbers($('.current-score'), this.score, 3);
     this.setHistoryScore(this.score);
@@ -579,11 +580,7 @@ LinkGame.prototype = {
     }).on('click', '.disorder', function (event) {
       self.leftDisorderTime-- > 0 && self.disorder();
     }).on('click', '.replay-btn', function () {
-      self.score = 0;
-      self.level = 0;
-      self.leftDisorderTime = 5;
-      $('.game-over').addClass('hidden');
-      self.reset();
+      backToWelcome();
     });
 
     // window.onbeforeunload = function (event) {
@@ -657,6 +654,8 @@ $(function () {
   tryPlayAudio();
   $(document).on('touchstart', tryPlayAudio);
 
+  // 欢迎页流程：点开始进入游戏，结束后（重玩按钮）回到欢迎页
+  var game = null;
   var gameConfig = {
     cellWidth: 120,
     cellHeight: 120,
@@ -664,5 +663,21 @@ $(function () {
     cols: 6,
     level: 0,
   }
-  new LinkGame(gameConfig).init();
+
+  function backToWelcome() {
+    if (game) {
+      clearInterval(game.timmer);
+    }
+    game = null;
+    $('.game-box').addClass('hidden');
+    $('.game-over').addClass('hidden');
+    $('#welcomeBox').removeClass('hidden');
+  }
+
+  $('#welcomeStart').on('click', function () {
+    $('#welcomeBox').addClass('hidden');
+    $('.game-box').removeClass('hidden');
+    game = new LinkGame(gameConfig);
+    game.init();
+  });
 });
