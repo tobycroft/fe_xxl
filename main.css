@@ -133,8 +133,8 @@ body {
 .wrapper .game-box .game-area {
   position: relative;
 
-  width: 640px;
-  margin: 60px auto 0;
+  width: 840px;
+  margin: 16px auto 0;
 }
 
 .wrapper .game-box .game-area table#game {
@@ -143,12 +143,12 @@ body {
 }
 
 .wrapper .game-box .game-area table#game .game-row {
-  height: 80px;
+  height: 84px;
 }
 
 .wrapper .game-box .game-area table#game .game-row td {
-  width: 80px;
-  height: 80px;
+  width: 84px;
+  height: 84px;
 
   text-align: center;
   vertical-align: middle;
@@ -186,8 +186,8 @@ body {
   left: 0;
   top: 0;
 
-  width: 640px;
-  height: 1120px;
+  width: 840px;
+  height: 1428px;
 }
 
 .wrapper .game-over {
