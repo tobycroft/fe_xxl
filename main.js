@@ -89,6 +89,7 @@ LinkGame.prototype = {
     this.linkPictures = [];
     this.preClickInfo = null; // 上一次被点中的图片信息
     this.leftTime = 100; // 剩余时间
+    this.updateDomNumbers($('.time'), this.leftTime, 1); // 立即显示初始时间
     this.points = []; // 图片可以相消时的拐点集合
     this.timmer = setInterval(function () {
       self.updateCountDown();
@@ -656,6 +657,7 @@ $(function () {
 
   // 欢迎页流程：点开始进入游戏，结束后（重玩按钮）回到欢迎页
   var game = null;
+  var startEntering = false; // 防止 touchend + click 双触发
   var gameConfig = {
     cellWidth: 120,
     cellHeight: 120,
@@ -669,15 +671,18 @@ $(function () {
       clearInterval(game.timmer);
     }
     game = null;
+    startEntering = false; // 重置标志，允许下次重新开始
     $('.game-box').addClass('hidden');
     $('.game-over').addClass('hidden');
     $('#welcomeBox').removeClass('hidden');
   }
 
-  var startEntering = false; // 防止 touchend + click 双触发
   function enterGame() {
     if (startEntering) return;
     startEntering = true;
+    if (game) {
+      clearInterval(game.timmer); // 保险：清掉旧计时器，避免重复计时
+    }
     $('#welcomeBox').addClass('hidden');
     $('.game-box').removeClass('hidden');
     game = new LinkGame(gameConfig);
