@@ -612,6 +612,7 @@ $(function () {
 
   // 打开页面直接进入游戏
   var audio = $('audio').get(0);
+  audio.loop = true; // 背景音乐循环播放
   // 自动播放被浏览器拦截时，首次触摸再尝试播放背景音乐
   function tryPlayAudio() {
     var p = audio.play();
