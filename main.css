@@ -267,10 +267,10 @@ body {
 }
 
 .wrapper .game-box .game-area table#game .game-row td .pic-box.active {
-  width: 150px;
-  height: 150px;
+  /* 用 transform 放大，不改变布局尺寸，避免撑动行列导致其他格子位移 */
+  transform: scale(1.25);
 
-  border-radius: 30px; 
+  border-radius: 30px;
   background: url(images/active.png) center no-repeat;
   background-size: 124%;
 }
