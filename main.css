@@ -72,7 +72,7 @@ body {
   height: 92px;
 
   background: url('images/toolbar3.png') center no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
 }
 
 .wrapper .game-box .toolbar .time {
