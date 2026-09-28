@@ -367,7 +367,7 @@ LinkGame.prototype = {
     ctx.restore();
     $canvas.removeClass('hidden');
     setTimeout(function () {
-      ctx.clearRect(0, 0, 800, 800);
+      ctx.clearRect(0, 0, $canvas[0].width, $canvas[0].height);
       $canvas.addClass('hidden');
     }, 200);
 
@@ -593,13 +593,13 @@ LinkGame.prototype = {
 
 
 $(function () {
-  // 移动端适配：整个游戏按屏幕等比缩放并居中
+  // 移动端适配：按 1080x1920 竖屏设计（864x1536，占屏幕 80%，四周留白），等比缩放并居中
   function fitScreen() {
-    var scale = Math.min(window.innerWidth / 800, window.innerHeight / 660, 1.5);
+    var scale = Math.min(window.innerWidth / 864, window.innerHeight / 1536, 1.5) * 0.8;
     $('.wrapper').css({
       transform: 'scale(' + scale + ')',
-      left: (window.innerWidth - 800 * scale) / 2 + 'px',
-      top: (window.innerHeight - 660 * scale) / 2 + 'px'
+      left: (window.innerWidth - 864 * scale) / 2 + 'px',
+      top: (window.innerHeight - 1536 * scale) / 2 + 'px'
     });
   }
   fitScreen();
@@ -627,10 +627,10 @@ $(function () {
   $(document).on('touchstart', tryPlayAudio);
 
   var gameConfig = {
-    cellWidth: 42,
-    cellHeight: 42,
-    rows: 7,
-    cols: 10,
+    cellWidth: 56,
+    cellHeight: 56,
+    rows: 12,
+    cols: 6,
     level: 0,
   }
   new LinkGame(gameConfig).init();
