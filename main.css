@@ -134,7 +134,7 @@ body {
   position: relative;
 
   width: 840px;
-  margin: 16px auto 0;
+  margin: 22px auto 0;
 }
 
 .wrapper .game-box .game-area table#game {
@@ -143,24 +143,24 @@ body {
 }
 
 .wrapper .game-box .game-area table#game .game-row {
-  height: 84px;
+  height: 140px;
 }
 
 .wrapper .game-box .game-area table#game .game-row td {
-  width: 84px;
-  height: 84px;
+  width: 140px;
+  height: 140px;
 
   text-align: center;
   vertical-align: middle;
 }
 
 .wrapper .game-box .game-area table#game .game-row td .pic-box {
-  line-height: 64px;
+  line-height: 120px;
 
   display: inline-block;
 
-  width: 64px;
-  height: 64px;
+  width: 120px;
+  height: 120px;
 
   cursor: pointer;
 
@@ -169,10 +169,10 @@ body {
 }
 
 .wrapper .game-box .game-area table#game .game-row td .pic-box.active {
-  width: 80px;
-  height: 80px;
+  width: 150px;
+  height: 150px;
 
-  border-radius: 16px; 
+  border-radius: 30px; 
   background: url(images/active.png) center no-repeat;
   background-size: 124%;
 }
@@ -187,7 +187,7 @@ body {
   top: 0;
 
   width: 840px;
-  height: 1428px;
+  height: 1400px;
 }
 
 .wrapper .game-over {

@@ -346,7 +346,7 @@ LinkGame.prototype = {
     if (!$canvas[0].getContext('2d')) return; // 不支持Canvas
     var linkList = this.linkPictures;
     var coordinate = [];
-    var cellPitch = 84; // 与 CSS 中格子间距保持一致
+    var cellPitch = 140; // 与 CSS 中格子间距保持一致
     for (var i = 0; i < linkList.length; i++) {
       var x = linkList[i].col === 0 ? 0 : (linkList[i].col === this.cols - 1 ? $('#game').width() : linkList[i].col * cellPitch - cellPitch / 2);
       var y = linkList[i].row === 0 ? 0 : (linkList[i].row === this.rows - 1 ? $('#game').height() : linkList[i].row * cellPitch - cellPitch / 2);
@@ -658,10 +658,10 @@ $(function () {
   $(document).on('touchstart', tryPlayAudio);
 
   var gameConfig = {
-    cellWidth: 56,
-    cellHeight: 56,
-    rows: 15,
-    cols: 8,
+    cellWidth: 120,
+    cellHeight: 120,
+    rows: 10,
+    cols: 6,
     level: 0,
   }
   new LinkGame(gameConfig).init();
