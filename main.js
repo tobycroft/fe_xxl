@@ -593,61 +593,17 @@ LinkGame.prototype = {
 
 
 $(function () {
-  var $loginBox = $('#loginBox');
-  var $username = $('#username');
-  var $password = $('#password');
-  var $loginBtn = $('#loginBtn');
-  var $loginError = $('#loginError');
+  // 打开页面直接进入游戏
+  var audio = $('audio').get(0);
+  var playResult = audio.play();
+  playResult && playResult.catch && playResult.catch(function () {}); // 浏览器可能阻止自动播放
 
-  function checkLogin() {
-    var currentUser = localStorage.getItem('linkGameUser');
-    if (currentUser) {
-      $loginBox.addClass('hidden');
-      return true;
-    }
-    return false;
+  var gameConfig = {
+    cellWidth: 42,
+    cellHeight: 42,
+    rows: 7,
+    cols: 10,
+    level: 0,
   }
-
-  function handleLogin() {
-    var username = $username.val().trim();
-    var password = $password.val().trim();
-
-    if (!username) {
-      $loginError.text('请输入用户名');
-      return;
-    }
-    if (!password) {
-      $loginError.text('请输入密码');
-      return;
-    }
-
-    localStorage.setItem('linkGameUser', JSON.stringify({
-      username: username,
-      loginTime: new Date().toISOString()
-    }));
-    $loginBox.addClass('hidden');
-  }
-
-  if (!checkLogin()) {
-    $loginBtn.on('click', handleLogin);
-    $password.on('keypress', function(e) {
-      if (e.which === 13) {
-        handleLogin();
-      }
-    });
-  }
-
-  $('.start-btn').click(function () {
-    $('audio').get(0).play();
-    $('.init-box').addClass('hidden');
-    $('.game-box').removeClass('hidden');
-    var gameConfig = {
-      cellWidth: 42,
-      cellHeight: 42,
-      rows: 7,
-      cols: 10,
-      level: 0,
-    }
-    new LinkGame(gameConfig).init();
-  });
+  new LinkGame(gameConfig).init();
 });
