@@ -593,10 +593,38 @@ LinkGame.prototype = {
 
 
 $(function () {
+  // 移动端适配：整个游戏按屏幕等比缩放并居中
+  function fitScreen() {
+    var scale = Math.min(window.innerWidth / 800, window.innerHeight / 660, 1.5);
+    $('.wrapper').css({
+      transform: 'scale(' + scale + ')',
+      left: (window.innerWidth - 800 * scale) / 2 + 'px',
+      top: (window.innerHeight - 660 * scale) / 2 + 'px'
+    });
+  }
+  fitScreen();
+  $(window).on('resize orientationchange', fitScreen);
+
+  // 禁止页面橡皮筋滚动
+  document.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+  }, { passive: false });
+
   // 打开页面直接进入游戏
   var audio = $('audio').get(0);
-  var playResult = audio.play();
-  playResult && playResult.catch && playResult.catch(function () {}); // 浏览器可能阻止自动播放
+  // 自动播放被浏览器拦截时，首次触摸再尝试播放背景音乐
+  function tryPlayAudio() {
+    var p = audio.play();
+    if (p && p.then) {
+      p.then(function () {
+        $(document).off('touchstart', tryPlayAudio);
+      }).catch(function () {});
+    } else {
+      $(document).off('touchstart', tryPlayAudio);
+    }
+  }
+  tryPlayAudio();
+  $(document).on('touchstart', tryPlayAudio);
 
   var gameConfig = {
     cellWidth: 42,
