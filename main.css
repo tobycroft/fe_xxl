@@ -366,6 +366,11 @@ body {
   display: none;
 }
 
+/* welcome-box 有 display:flex，需要更高优先级才能被 hidden 隐藏 */
+.wrapper .welcome-box.hidden {
+  display: none;
+}
+
 .number {
   display: inline-block;
 
