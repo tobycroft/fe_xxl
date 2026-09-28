@@ -9,7 +9,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>连连看</title>
-  <link rel="stylesheet" href="./main.css?v=20260928j">
+  <link rel="stylesheet" href="./main.css?v=20260928l">
 </head>
 <body>
   <div class="wrapper">
@@ -35,16 +35,33 @@
         </table>
       </div>
     </div>
-    <div class="game-over hidden">
-      <div class="current-score"></div>
-      <div class="history-score"></div>
-      <div class="replay-btn"></div>
+    <div class="game-over hidden" id="gameOver">
+      <div class="game-over-panel">
+        <div class="game-over-title">游戏结束</div>
+        <div class="game-over-label">本次得分</div>
+        <div class="game-over-score" id="finalScore">0</div>
+        <div class="game-over-history">历史最高：<span id="historyScore">0</span></div>
+        <div class="game-over-btns">
+          <div class="game-over-btn go-replay" id="goReplay">重玩</div>
+          <div class="game-over-btn go-home" id="goHome">返回首页</div>
+        </div>
+      </div>
+    </div>
+    <div class="level-pass hidden" id="levelPass">
+      <div class="level-pass-panel">
+        <div class="level-pass-title">挑战成功！</div>
+        <div class="level-pass-info">即将进入第 <span id="passNextLevel"></span> 关</div>
+        <div class="level-pass-btns">
+          <div class="level-pass-btn pass-continue" id="passContinue">继续挑战</div>
+          <div class="level-pass-btn pass-exit" id="passExit">退出</div>
+        </div>
+      </div>
     </div>
     <div class="music-toggle" id="musicToggle"></div>
     <audio class="hidden" src="./bg.mp3" loop="loop"></audio>
 
   </div>
-  <script src="./zepto.min.js?v=20260928j"></script>
-  <script src="./main.js?v=20260928j"></script>
+  <script src="./zepto.min.js?v=20260928l"></script>
+  <script src="./main.js?v=20260928l"></script>
 </body>
 </html>

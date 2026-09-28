@@ -82,6 +82,7 @@ LinkGame.prototype = {
   init: function (isReset) {
     var self = this;
     this.stack = [];
+    this.isPaused = false;
     this.iconTypeCount = this.level + 11; // 图片的种类
     this.count = (this.rows - 2) * (this.cols - 2); // 图片的总数
     this.remain = this.count; // 剩余的未有消去的图片
@@ -171,6 +172,9 @@ LinkGame.prototype = {
   },
 
   updateCountDown: function () {
+    if (this.isPaused) {
+      return; // 过关弹窗期间暂停倒计时
+    }
     --this.leftTime;
     if (this.leftTime < 0) {
       clearInterval(this.timmer);
@@ -181,9 +185,10 @@ LinkGame.prototype = {
   },
   gameOver: function () {
     clearInterval(this.timmer);
-    $('.game-over').removeClass('hidden').find('.history-score').text(this.getHistoryScore() || 0);
-    this.updateDomNumbers($('.current-score'), this.score, 3);
+    $('#finalScore').text(this.score);
+    $('#historyScore').text(this.getHistoryScore() || 0);
     this.setHistoryScore(this.score);
+    $('#gameOver').removeClass('hidden');
   },
 
   updateLevel: function () {
@@ -387,10 +392,16 @@ LinkGame.prototype = {
       self.pictures[curRow][curCol].isEmpty = true;
       self.domAddEmpty(preIndex).domAddEmpty(curIndex);
       if (self.remain === 0) {
-        ++self.level;
-        self.nextLevel();
+        self.levelPass();
       }
     }, 200);
+  },
+  // 过关：弹出提示，由玩家选择继续或退出
+  levelPass: function () {
+    clearInterval(this.timmer);
+    this.isPaused = true;
+    $('#passNextLevel').text(this.level + 2); // level 已是下一关索引（0 起），显示 +2
+    $('#levelPass').removeClass('hidden');
   },
   isRowEmpty: function (x1, y1, x2, y2) {
     if (y1 != y2) {
@@ -582,6 +593,18 @@ LinkGame.prototype = {
       self.leftDisorderTime-- > 0 && self.disorder();
     }).on('click', '.replay-btn', function () {
       backToWelcome();
+    }).on('click', '#goReplay', function () {
+      $('#gameOver').addClass('hidden');
+      replayGame();
+    }).on('click', '#goHome', function () {
+      $('#gameOver').addClass('hidden');
+      backToWelcome();
+    }).on('click', '#passContinue', function () {
+      $('#levelPass').addClass('hidden');
+      continueNextLevel();
+    }).on('click', '#passExit', function () {
+      $('#levelPass').addClass('hidden');
+      backToWelcome();
     });
 
     // window.onbeforeunload = function (event) {
@@ -674,7 +697,25 @@ $(function () {
     startEntering = false; // 重置标志，允许下次重新开始
     $('.game-box').addClass('hidden');
     $('.game-over').addClass('hidden');
+    $('#levelPass').addClass('hidden');
     $('#welcomeBox').removeClass('hidden');
+  }
+
+  // 过关后继续：保持分数与等级，重开一局（等级已递增）
+  function continueNextLevel() {
+    if (!game) return;
+    game.isPaused = false;
+    game.reset();
+  }
+
+  // 结算页重玩：分数/等级/重排次数全部归零，立即重开
+  function replayGame() {
+    if (!game) return;
+    game.score = 0;
+    game.level = 0;
+    game.leftDisorderTime = 5;
+    game.isPaused = false;
+    game.reset();
   }
 
   function enterGame() {
@@ -683,6 +724,7 @@ $(function () {
     if (game) {
       clearInterval(game.timmer); // 保险：清掉旧计时器，避免重复计时
     }
+    $('#levelPass').addClass('hidden');
     $('#welcomeBox').addClass('hidden');
     $('.game-box').removeClass('hidden');
     game = new LinkGame(gameConfig);

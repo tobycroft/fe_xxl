@@ -288,50 +288,96 @@ body {
   height: 1400px;
 }
 
+/* 游戏结束弹窗（纯 CSS 卡片，替代原 game-over.png 图片背景） */
 .wrapper .game-over {
   position: absolute;
   top: 0;
+  z-index: 20;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   width: 864px;
   height: 1536px;
 
-  background: rgba(0, 0, 0, .4) url(images/game-over.png) center no-repeat;
-  background-size: auto;
+  background: rgba(0, 0, 0, .45);
 }
 
-.wrapper .game-over .current-score {
-  position: absolute;
-  top: 758px;
-  left: 273px;
+.wrapper .game-over.hidden {
+  display: none;
+}
 
-  width: 350px;
-  height: 60px;
+.wrapper .game-over .game-over-panel {
+  width: 560px;
+  padding: 60px 40px;
 
   text-align: center;
+
+  border-radius: 32px;
+  background: #fff;
+  box-shadow: 0 16px 60px rgba(80, 60, 160, .35);
 }
 
-.wrapper .game-over .history-score {
-  font-size: 20px; 
+.wrapper .game-over .game-over-title {
+  font-size: 64px;
+  font-weight: bold;
 
-  position: absolute;
-  top: 874px;
-  left: 443px;
+  color: #8b7cf8;
+}
 
-  width: 200px;
-  height: 30px;
+.wrapper .game-over .game-over-label {
+  font-size: 34px;
+  margin-top: 40px;
 
   color: #999;
 }
 
-.wrapper .game-over .replay-btn {
-  position: absolute;
-  top: 834px;
-  left: 332px;
+.wrapper .game-over .game-over-score {
+  font-size: 96px;
+  font-weight: bold;
+  line-height: 1.2;
 
-  width: 200px;
-  height: 30px;
+  margin-top: 10px;
+
+  color: #ff70a6;
+}
+
+.wrapper .game-over .game-over-history {
+  font-size: 30px;
+  margin-top: 20px;
+
+  color: #999;
+}
+
+.wrapper .game-over .game-over-btns {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 60px;
+}
+
+.wrapper .game-over .game-over-btn {
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 90px;
+
+  width: 220px;
+  height: 90px;
+  margin: 0 15px;
 
   cursor: pointer;
+
+  color: #fff;
+  border-radius: 45px;
+}
+
+.wrapper .game-over .go-replay {
+  background: linear-gradient(135deg, #ff9ec6 0%, #a78bfa 100%);
+}
+
+.wrapper .game-over .go-home {
+  background: #b8b8c8;
 }
 
 .wrapper .music-toggle {
@@ -356,6 +402,82 @@ body {
   color: #ccc;
 
   background: rgba(0, 0, 0, .55);
+}
+
+/* 过关弹窗 */
+.wrapper .level-pass {
+  position: absolute;
+  top: 0;
+  z-index: 20;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 864px;
+  height: 1536px;
+
+  background: rgba(0, 0, 0, .45);
+}
+
+.wrapper .level-pass .level-pass-panel {
+  width: 560px;
+  padding: 60px 40px;
+
+  text-align: center;
+
+  border-radius: 32px;
+  background: #fff;
+  box-shadow: 0 16px 60px rgba(80, 60, 160, .35);
+}
+
+.wrapper .level-pass .level-pass-title {
+  font-size: 64px;
+  font-weight: bold;
+
+  color: #ff70a6;
+}
+
+.wrapper .level-pass .level-pass-info {
+  font-size: 36px;
+  margin-top: 30px;
+
+  color: #666;
+}
+
+.wrapper .level-pass .level-pass-btns {
+  display: flex;
+  justify-content: center;
+
+  margin-top: 60px;
+}
+
+.wrapper .level-pass .level-pass-btn {
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 90px;
+
+  width: 220px;
+  height: 90px;
+  margin: 0 15px;
+
+  cursor: pointer;
+
+  color: #fff;
+  border-radius: 45px;
+}
+
+.wrapper .level-pass .pass-continue {
+  background: linear-gradient(135deg, #ff9ec6 0%, #a78bfa 100%);
+}
+
+.wrapper .level-pass .pass-exit {
+  background: #b8b8c8;
+}
+
+/* 过关弹窗（与 welcome-box 同理，需要更高优先级覆盖 display:flex） */
+.wrapper .level-pass.hidden {
+  display: none;
 }
 
 .empty {
